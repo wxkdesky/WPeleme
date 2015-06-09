@@ -31,5 +31,8 @@ namespace waimai.BingdingClass
         public string iconBookText { set; get; }
         public string iconDeliver { set; get; }//配
         public string iconDeliverText { set; get; }
+        public string name_for_url { set; get; }
+        public string Rate { set; get; }
+        public string Total { set; get; }
     }
 }

@@ -8,20 +8,20 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Background="AliceBlue">
+    <Grid Background="White">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <Line Grid.Row="1" Grid.ColumnSpan="3" Stroke="Gray" X1="0" Y1="0" X2="400" Y2="0" StrokeThickness="1"  ></Line>
+            <Line Grid.Row="2" Grid.ColumnSpan="3" Stroke="Gray" X1="0" Y1="0" X2="400" Y2="0" StrokeThickness="1"  ></Line>
             <Button Name="connect" Grid.Row="0" Content="connect" HorizontalAlignment="Center" Click="Button_Click"></Button>
-            <Button Content="seeJson" Name="bt1" Click="bt1_Click"></Button>
-            <ListView Width="400" Name="NRestList" Grid.Row="1">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
- 
+            <Button Grid.Row="0" Content="seeJson" Name="bt1" Click="bt1_Click"></Button>
+            <ListView Width="400" Name="NRestList" Grid.Row="2" ItemClick="NRestList_ItemClick" >
+                <ListView.ItemTemplate >
+                    <DataTemplate> 
                             <Grid HorizontalAlignment="Center">
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
@@ -30,31 +30,33 @@
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="95"></ColumnDefinition>
                                     <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                             <Line Grid.Row="0" Grid.ColumnSpan="3" Stroke="Gray" X1="0" Y1="0" X2="400" Y2="0" StrokeThickness="1"  ></Line>
-                            <Image Grid.RowSpan="3" Width="55"  Source="{Binding Path=imageSource}" Margin="20,0,0,0" ></Image>
+                            <Image Grid.RowSpan="3" Width="50"  Source="{Binding Path=imageSource}" Margin="10,0,0,0" ></Image>
                                 <TextBlock FontWeight="Bold" FontSize="18" Grid.Column="1" Text="{Binding Path=restName}" Margin="0,0,0,0"></TextBlock>
                                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Margin="0,0,0,0">
-                                    <TextBlock FontSize="15" Text="{Binding Path=monthSellTips}"></TextBlock>
+                                <TextBlock FontSize="15" Text="{Binding Path=Rate}" Foreground="Orange"></TextBlock>
+                                <TextBlock FontSize="14" Text="{Binding Path=Total}"></TextBlock>
+                                    <TextBlock FontSize="12" Text="{Binding Path=monthSellTips}"></TextBlock>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" Margin="0,0,0,0">
                                     <TextBlock FontSize="15" Text="{Binding Path=deliverSpent}"></TextBlock>
                                     <TextBlock FontSize="15" Text="/"></TextBlock>
                                     <TextBlock FontSize="15" Text="{Binding Path=Distance}"></TextBlock>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="30,0,0,0">
+                                <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="20,0,0,0">
                                     <TextBlock  FontSize="20" Foreground="Red" Text="{Binding Path=leastMoneyTips}"></TextBlock>
                                     <TextBlock FontSize="15" Text="起送"></TextBlock>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="30,0,0,0">
+                                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="20,0,0,0">
                                     <TextBlock  FontSize="15" Foreground="Red" Text="{Binding Path=iconPay}"></TextBlock>
                                     <TextBlock FontSize="15" Foreground="Red" Text="{Binding Path=iconCheck}"></TextBlock>
                                     <TextBlock FontSize="15" Foreground="Red" Text="{Binding Path=iconDeliver}"></TextBlock>
                                 </StackPanel>
-                            <TextBlock Grid.Row="2" Grid.Column="2" FontSize="15" Foreground="Gray" Text="餐厅配送" Margin="30,0,0,0"></TextBlock>
+                            <TextBlock Grid.Row="2" Grid.Column="2" FontSize="15" Foreground="Gray" Text="餐厅配送" Margin="20,0,0,0"></TextBlock>
                             <StackPanel Name="lastLine" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
                                     <StackPanel Orientation="Horizontal" >
                                         <TextBlock FontSize="18" Foreground="Purple" Text="{Binding Path=iconMinus}"></TextBlock>

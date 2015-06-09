@@ -89,7 +89,7 @@ namespace waimai
             //  tb1.Text = x.Content.ToString();
 
             msg = new HttpResponseMessage();
-            string address = "http://api.ele.me/1/home?banner_width=640&consumer_key=7284397383&geohash=wtw37tkct0fw&session_id=066b2f78e5b6a28eba862842e911d19c&sig=b13cf07a2fcce597ef70c6d15c46a50e&timestamp="+time+"&track_id=1431963253%7C_561daf6c-fd73-11e4-bf65-549f3515da4c%7Cdffd7577b1ef7a401665a87e8bdda416"; //"http://v2.openapi.ele.me/restaurants?geo=" + longitude+","+latitude;
+            string address = "http://api.ele.me/1/home?banner_width=640&consumer_key=7284397383&geohash=wtw37tkct0fw&session_id=066b2f78e5b6a28eba862842e911d19c&sig=0&timestamp="+time+"&track_id=1431963253%7C_561daf6c-fd73-11e4-bf65-549f3515da4c%7Cdffd7577b1ef7a401665a87e8bdda416"; //"http://v2.openapi.ele.me/restaurants?geo=" + longitude+","+latitude;sig=b13cf07a2fcce597ef70c6d15c46a50e
             try
             {
                 msg = await a.GetAsync(new Uri(address));
@@ -110,13 +110,14 @@ namespace waimai
             connect.Background = new SolidColorBrush(Windows.UI.Colors.Orange);
 
         }
-
+        ///http://restapi.ele.me/v1/restaurants/gwygre478/menu?full_image_path=1
         private void bt1_Click(object sender, RoutedEventArgs e)
         {
             jsonObject = JsonObject.Parse(responseText);
            // myArray = jsonObject["promotions"].GetArray();
             JsonObject temp = jsonObject["home"].GetObject();
             myArray=temp["restaurants"].GetArray();
+           // int nnnn = myArray.Count; 30
             foreach (var item in myArray)
             {
                 myNRest = new ordinaryRest();
@@ -172,14 +173,36 @@ namespace waimai
                 myNRest.imageSource = new BitmapImage(new Uri(temp["image_url"].GetString()));
                 Regex mod = new Regex(@"(月售\d+份)[\s]+(\d+)元起送*");
                 Match x = mod.Match(temp["tips"].GetString());
-                myNRest.leastMoneyTips = x.Groups[2].Value.ToString();
+                myNRest.leastMoneyTips ="￥"+ x.Groups[2].Value.ToString();
                 myNRest.monthSellTips = x.Groups[1].Value.ToString();
+                myNRest.name_for_url = temp["name_for_url"].GetString();
+                double customer = temp["num_rating_1"].GetNumber() + temp["num_rating_2"].GetNumber() + temp["num_rating_3"].GetNumber() + temp["num_rating_4"].GetNumber() + temp["num_rating_5"].GetNumber();
+                myNRest.Total ="("+Convert.ToString(customer )+")";
+                double r = (temp["num_rating_1"].GetNumber() + temp["num_rating_2"].GetNumber() * 2 + temp["num_rating_3"].GetNumber() * 3 + temp["num_rating_4"].GetNumber() * 4 + temp["num_rating_5"].GetNumber() * 5) / customer;
+                if (r > 4)
+                    myNRest.Rate = "★★★★★";
+                else if (r > 3)
+                    myNRest.Rate = "★★★★☆";
+                else if(r>2)
+                    myNRest.Rate = "★★★☆☆";
+                else if(r>1)
+                    myNRest.Rate= "★★☆☆☆";
+                else
+                    myNRest.Rate = "★☆☆☆☆";
                 nRest.Add(myNRest);
+                //Debug.WriteLine(temp["name_for_url"].GetString());
             }
                 NRestList.ItemsSource = nRest;
           
            // temp = myArray[0].GetObject();
            // tb1.Text = temp["subtitle"].GetString();
+        }
+
+        private void NRestList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
+            int x = ((ListViewItem)e.ClickedItem).TabIndex;
+            this.Frame.Navigate(typeof(DetailRest), nRest[x].name_for_url);
         }
     }
 }
